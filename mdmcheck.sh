@@ -25,17 +25,17 @@ fi
                 diskutil rename "Macintosh HD - Data" "Data"
             fi
 
-echo
-echo "Step 2: Checking for MDM status under:"
-echo "$CONFIG_PROFILE_DIR"
-echo
+# echo
+# echo "Step 2: Checking for MDM status under:"
+# echo "$CONFIG_PROFILE_DIR"
+# echo
 
 # Wait briefly to allow system to remount renamed volume
 sleep 2
 
 # Check if the directory exists
 if [ ! -d "$CONFIG_PROFILE_DIR" ]; then
-  echo "⚠️ ConfigurationProfiles directory not found. Volume may not be mounted properly or path is incorrect."
+  # echo "⚠️ ConfigurationProfiles directory not found. Volume may not be mounted properly or path is incorrect."
   exit 1
 fi
 
