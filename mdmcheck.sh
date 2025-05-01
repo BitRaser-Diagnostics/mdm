@@ -36,9 +36,9 @@ fi
 
 # Check for MDM indicator files
 if [ -f "$CONFIG_PROFILE_DIR/$HAS_MDM_FILE" ]; then
-  echo "Found Has MDM detected"
+  echo "MDM Found"
 elif [ -f "$CONFIG_PROFILE_DIR/$NO_MDM_FILE" ]; then
-  echo "Found No MDM detected"
+  echo "MDM Not Found"
 else
   echo "Past UI setup not done properly"
 fi
