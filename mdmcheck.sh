@@ -11,7 +11,7 @@ echo "Step 1: Renaming volumes ending in '- Data' to '$TARGET_NAME'..."
 matched_volumes=$(diskutil list | grep -i "APFS Volume" | grep -E "\-Data\s" | awk '{$1=$1};1')
 
 if [ -z "$matched_volumes" ]; then
-  echo "❌ No volumes found ending in '- Data'."
+  echo "No volumes found ending in '- Data'."
 else
   while IFS= read -r line; do
     volume_name=$(echo "$line" | awk '{print $4}')
@@ -20,7 +20,6 @@ else
     echo "🔄 Renaming '$volume_name' ($disk_identifier) to '$TARGET_NAME'..."
     diskutil rename "$disk_identifier" "$TARGET_NAME"
   done <<< "$matched_volumes"
-  echo "✅ Rename complete."
 fi
    if [ -d "/Volumes/Macintosh HD - Data" ]; then
                 diskutil rename "Macintosh HD - Data" "Data"
@@ -42,9 +41,9 @@ fi
 
 # Check for MDM indicator files
 if [ -f "$CONFIG_PROFILE_DIR/$HAS_MDM_FILE" ]; then
-  echo "✅ Has MDM detected (found $HAS_MDM_FILE)"
+  echo "Found"
 elif [ -f "$CONFIG_PROFILE_DIR/$NO_MDM_FILE" ]; then
-  echo "❌ No MDM detected (found $NO_MDM_FILE)"
+  echo "Not Found"
 else
-  echo "⚠️ Past UI setup not done properly (neither file found)"
+  echo "Past UI setup not done properly"
 fi
