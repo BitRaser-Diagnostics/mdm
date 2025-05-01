@@ -8,20 +8,20 @@ HAS_MDM_FILE=".cloudConfigHasActivationRecord"
 echo "Step 1: Renaming volumes ending in '- Data' to '$TARGET_NAME'..."
 
 # Find APFS volumes ending in "- Data"
-matched_volumes=$(diskutil list | grep -i "APFS Volume" | grep -E "\- Data\s" | awk '{$1=$1};1')
+matched_volumes=$(diskutil list | grep -i "APFS Volume" | grep -E "\-Data\s" | awk '{$1=$1};1')
 
-# if [ -z "$matched_volumes" ]; then
-#   echo "❌ No volumes found ending in '- Data'."
-# else
-#   while IFS= read -r line; do
-#     volume_name=$(echo "$line" | awk '{print $4}')
-#     disk_identifier=$(echo "$line" | awk '{print $NF}')
+if [ -z "$matched_volumes" ]; then
+  echo "❌ No volumes found ending in '- Data'."
+else
+  while IFS= read -r line; do
+    volume_name=$(echo "$line" | awk '{print $4}')
+    disk_identifier=$(echo "$line" | awk '{print $NF}')
     
-#     echo "🔄 Renaming '$volume_name' ($disk_identifier) to '$TARGET_NAME'..."
-#     diskutil rename "$disk_identifier" "$TARGET_NAME"
-#   done <<< "$matched_volumes"
-#   echo "✅ Rename complete."
-# fi
+    echo "🔄 Renaming '$volume_name' ($disk_identifier) to '$TARGET_NAME'..."
+    diskutil rename "$disk_identifier" "$TARGET_NAME"
+  done <<< "$matched_volumes"
+  echo "✅ Rename complete."
+fi
    if [ -d "/Volumes/Macintosh HD - Data" ]; then
                 diskutil rename "Macintosh HD - Data" "Data"
             fi
