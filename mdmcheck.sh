@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TARGET_NAME="Data"
-CONFIG_PROFILE_DIR="/Volumes/$TARGET_NAME/private/var/db/ConfigurationProfiles/Settings"
+CONFIG_PROFILE_DIR="/Volumes/$TARGET_NAME/private/var/db/ConfigurationProfiles/Settings/"
 NO_MDM_FILE=".cloudConfigNoActivationRecord"
 HAS_MDM_FILE=".cloudConfigHasActivationRecord"
 
