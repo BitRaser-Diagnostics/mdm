@@ -11,7 +11,7 @@ if [ -d "/Volumes/$TARGET_NAME" ]; then
   :
 else
   # Find APFS volumes ending with "- Data"
-  matched_volumes=$(diskutil list | grep -i "APFS Volume" | grep -E "\- Data\s" | awk '{$1=$1};1')
+  matched_volumes=$(diskutil list | grep -i "APFS Volume" | grep -E "\-Data\s" | awk '{$1=$1};1')
 
   if [ -z "$matched_volumes" ]; then
     exit 1
