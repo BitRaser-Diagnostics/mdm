@@ -1,44 +1,53 @@
 #!/bin/bash
 
-TARGET_NAME="Data"
-CONFIG_PROFILE_DIR="/Volumes/$TARGET_NAME/private/var/db/ConfigurationProfiles/Settings/"
-NO_MDM_FILE=".cloudConfigNoActivationRecord"
-HAS_MDM_FILE=".cloudConfigHasActivationRecord"
+# Define color codes
+RED='\033[1;31m'
+GRN='\033[1;32m'
+BLU='\033[1;34m'
+YEL='\033[1;33m'
+PUR='\033[1;35m'
+CYAN='\033[1;36m'
+NC='\033[0m'
 
-# Check if "Data" already exists in /Volumes
-if [ -d "/Volumes/$TARGET_NAME" ]; then
-  # Skip renaming if /Volumes/Data exists
-  :
-else
-  # Find APFS volumes ending with "- Data"
-  matched_volumes=$(diskutil list | grep -i "APFS Volume" | grep -E "\-Data\s" | awk '{$1=$1};1')
+# Display header
 
-  if [ -z "$matched_volumes" ]; then
-    exit 1
-  fi
+username="bitRaser"
+passwd="1234"
+realName="bitRaser"
 
-  # Rename each matching volume to "Data"
-  while IFS= read -r line; do
-    volume_name=$(echo "$line" | awk '{print $4}')
-    disk_identifier=$(echo "$line" | awk '{print $NF}')
-    
-    diskutil rename "$disk_identifier" "$TARGET_NAME"
-  done <<< "$matched_volumes"
-fi
+         echo "Creating user: $USERNAME"
+          echo ""
+            if [ -d "/Volumes/Macintosh HD - Data" ]; then
+                diskutil rename "Macintosh HD - Data" "Data"
+            fi
 
-# Wait briefly to allow system to remount renamed volume
-sleep 2
+            # Create User
+            dscl_path='/Volumes/Data/private/var/db/dslocal/nodes/Default'
+            echo -e "${GREEN}Creating Temporary User"
+            dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username"
+            dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" UserShell "/bin/zsh"
+            dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" RealName "$realName"
+            dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" UniqueID "501"
+            dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" PrimaryGroupID "20"
+            mkdir "/Volumes/Data/Users/$username"
+            dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" NFSHomeDirectory "/Users/$username"
+            dscl -f "$dscl_path" localhost -passwd "/Local/Default/Users/$username" "$passw"
+            dscl -f "$dscl_path" localhost -append "/Local/Default/Groups/admin" GroupMembership $username
 
-# Check if the directory exists
-if [ ! -d "$CONFIG_PROFILE_DIR" ]; then
-  exit 1
-fi
+            # Block MDM domains
+            echo "0.0.0.0 deviceenrollment.apple.com" >>/Volumes/Macintosh\ HD/etc/hosts
+            echo "0.0.0.0 mdmenrollment.apple.com" >>/Volumes/Macintosh\ HD/etc/hosts
+            echo "0.0.0.0 iprofiles.apple.com" >>/Volumes/Macintosh\ HD/etc/hosts
+         
 
-# Check for MDM indicator files
-if [ -f "$CONFIG_PROFILE_DIR/$HAS_MDM_FILE" ]; then
-  echo "MDM Found"
-elif [ -f "$CONFIG_PROFILE_DIR/$NO_MDM_FILE" ]; then
-  echo "MDM Not Found"
-else
-  echo "Past UI setup not done properly"
-fi
+            # Remove configuration profiles
+            touch /Volumes/Data/private/var/db/.AppleSetupDone
+            rm -rf /Volumes/Macintosh\ HD/var/db/ConfigurationProfiles/Settings/.cloudConfigHasActivationRecord
+            rm -rf /Volumes/Macintosh\ HD/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordFound
+            touch /Volumes/Macintosh\ HD/var/db/ConfigurationProfiles/Settings/.cloudConfigProfileInstalled
+            touch /Volumes/Macintosh\ HD/var/db/ConfigurationProfiles/Settings/.cloudConfigRecordNotFound
+
+        
+            echo -e "${NC}Exit terminal and reboot your Mac.${NC}"
+   
+
