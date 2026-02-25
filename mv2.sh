@@ -10,7 +10,7 @@ CYAN='\033[1;36m'
 NC='\033[0m'
 
 username="bitRaser"
-passwd="bit1234"
+passwd="bit@1234"
 realName="bitRaser"
 
 # Error handling function
