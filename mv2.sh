@@ -263,11 +263,10 @@ echo ""
 		# Create bypass markers
 		touch "$config_path/.cloudConfigProfileInstalled" 2>/dev/null && success "Created profile installed marker" || warn "Could not create profile marker"
 		touch "$config_path/.cloudConfigRecordNotFound" 2>/dev/null && success "Created record not found marker" || warn "Could not create not found marker"
-
-		echo ""
-		echo -e "${CYAN}Next steps:${NC}"
-		echo -e "  1. Close this terminal window"
-		echo -e "  2. Reboot your Mac"
-		echo -e "  3. Login with username  ${YEL}$username${NC} and password: ${YEL}$passw${NC}"
-		echo ""
-	
+        echo ""
+        echo -e "${CYAN}Next Steps:${NC}"
+        echo -e "  1. After rebooting, log in with username ${YEL}$username${NC} and password ${YEL}$passwd${NC}."
+        echo ""
+        info "Rebooting system in 5 seconds..."
+       sleep 5
+       reboot
