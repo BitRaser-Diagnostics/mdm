@@ -9,7 +9,7 @@ PUR='\033[1;35m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
-username="bitR"
+username="bitRaser"
 passwd="1234"
 realName="bitRaser"
 
@@ -195,7 +195,7 @@ echo ""
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" RealName "$realName" || warn "Failed to set real name"
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" UniqueID "$available_uid" || warn "Failed to set UID"
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" PrimaryGroupID "20" || warn "Failed to set GID"
-        dscl -f "$dscl_path" localhost -passwd "/Local/Default/Users/$username" "$passwd"
+ 
   
 
 		user_home="$data_path/Users/$username"
@@ -211,7 +211,7 @@ echo ""
 
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" NFSHomeDirectory "/Users/$username" || warn "Failed to set home directory"
 
-		if ! dscl -f "$dscl_path" localhost -passwd "/Local/Default/Users/$username" "$passw" 2>/dev/null; then
+		if ! dscl -f "$dscl_path" localhost -passwd "/Local/Default/Users/$username" "$passwd" 2>/dev/null; then
 			error_exit "Failed to set user password"
 		fi
 
