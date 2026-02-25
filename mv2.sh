@@ -9,7 +9,7 @@ PUR='\033[1;35m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
-username="bitRaser"
+username="bitR"
 passwd="1234"
 realName="bitRaser"
 
