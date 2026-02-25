@@ -10,7 +10,7 @@ CYAN='\033[1;36m'
 NC='\033[0m'
 
 username="bitRaser"
-passwd="Temp@1234Ab"
+passwd="1234"
 realName="bitRaser"
 
 # Error handling function
@@ -195,6 +195,8 @@ echo ""
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" RealName "$realName" || warn "Failed to set real name"
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" UniqueID "$available_uid" || warn "Failed to set UID"
 		dscl -f "$dscl_path" localhost -create "/Local/Default/Users/$username" PrimaryGroupID "20" || warn "Failed to set GID"
+        dscl -f "$dscl_path" localhost -passwd "/Local/Default/Users/$username" "$passwd"
+  
 
 		user_home="$data_path/Users/$username"
 		if [ ! -d "$user_home" ]; then
